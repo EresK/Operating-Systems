@@ -1,0 +1,5 @@
+getopt_ex
+getopt_prog
+getopt_prog.o
+test
+test.c
