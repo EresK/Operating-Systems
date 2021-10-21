@@ -1,6 +1,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 #include <ulimit.h>
 #include <unistd.h>
 
@@ -9,8 +10,8 @@ extern int optind, opterr, optopt;
 
 int main(int argc, char* argv[], char* envp[])
 {
-    char* options = "ispuU:vV:";
-    char* U_ptr;
+    char* options = "ispuU:cdvV:";
+    char* buff[PATH_MAX];
     int c, k;
     long new_ulimit;
     
@@ -48,6 +49,17 @@ int main(int argc, char* argv[], char* envp[])
                     else
                         printf("success SETFSIZE ulimit\n");
                 }
+                break;
+
+            case 'c':
+
+                break;
+
+            case 'd':
+                if(getcwd(buff, sizeof(buff)))
+                    printf("%s\n", buff);
+                else
+                    fprintf(stderr, "Error: %s\n", strerror(errno));
                 break;
 
             case 'v':
