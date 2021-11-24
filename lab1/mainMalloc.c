@@ -10,7 +10,7 @@ extern char* optarg;
 extern int optind, opterr, optopt;
 extern char** environ;
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[], char* envp[])
 {
     char* options = "ispuU:cC:dvV:";
     int c, k;
@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     long new_ulimit;
 
     // d
-    char buff[_PC_PATH_MAX];
+    char* buff;
 
     // cC:
     char* end;
@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
             break;
 
         case 's':
-            if(setpgid(0, 0))
+            if(setpgid(getpgrp(), getpid()))
                 perror("Error: can not setpgid\n");
             else
                 printf("Success setpgid\n");
@@ -82,10 +82,13 @@ int main(int argc, char* argv[])
             break;
 
         case 'd':
-            if(!(getcwd(buff, sizeof(buff))))
+            if(!(buff = getcwd(NULL, 0)))
                 perror("Error: can not allocate memory getcwd\n");
             else
+            {
                 printf("%s\n", buff);
+                free(buff);
+            }
             break;
 
         case 'v':
