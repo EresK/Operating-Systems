@@ -1,5 +1,8 @@
-main: main.o
-	gcc main.o -o main
+main: main.o myexecvpe.o
+	gcc main.o myexecvpe.o -o main
 
 main.o: main.c
-	gcc -c main.c my_execvpe.c
+	gcc -c main.c
+
+myexecvpe.o: myexecvpe.c
+	gcc -c myexecvpe.c
