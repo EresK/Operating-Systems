@@ -24,7 +24,7 @@ int myexecvpe(char* filename, char* argv[], char* envp[])
         {
             token_len = strlen(token);
 
-            if (sizeof(path) <= token_len + filename_len)
+            if (sizeof(path) <= token_len + filename_len + 1)
             {
                 fprintf(stderr, "Warning: path to the file, %s, is too long\n", filename);
                 break;
@@ -48,6 +48,6 @@ int myexecvpe(char* filename, char* argv[], char* envp[])
         }
     }
 
-    fprintf(stderr, "Error: file, %s, did not find in PATH\n", filename);
+    fprintf(stderr, "Error: file, %s, not found\n", filename);
     return -1;
 }
