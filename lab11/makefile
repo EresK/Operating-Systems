@@ -1,8 +1,8 @@
 main: main.o myexecvpe.o
-	gcc main.o myexecvpe.o -o main
+	cc main.o myexecvpe.o -lgen -o main
 
-main.o: main.c
-	gcc -c main.c
+main.o: main.c  myexecvpe.h
+	cc -c main.c
 
 myexecvpe.o: myexecvpe.c
-	gcc -c myexecvpe.c
+	cc -c myexecvpe.c
