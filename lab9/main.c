@@ -6,32 +6,21 @@
 
 int main() {
     pid_t pid;
-    int status;
 
     if ((pid = fork()) > 0) {
+        int status;
         if (wait(&status) == -1) {
             perror("child process failed");
             exit(2);
         }
-        printf("Parent process, returned status: %d\n", status);
+        printf("\nParent process, returned status: %d\n", status);
     }
     else if (pid == 0) {
-        FILE* fp;
-        char line[BUFSIZ];
+        char* nargv[] = {"cat", "big_text", (char*)0};
 
-        if ((fp = popen("cat big_text", "r")) != NULL) {
-            while (fgets(line, BUFSIZ, fp) != NULL)
-                printf("%s", line);
-            printf("\n");
-        }
-        else {
-            perror("popen text failed\n");
+        if (execvp("cat", nargv) == -1) {
+            perror("execvp failed");
             exit(3);
-        }
-
-        if (pclose(fp) == -1) {
-            perror("pclose failed");
-            exit(4);
         }
     }
     else {
