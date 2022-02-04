@@ -29,13 +29,15 @@ int main() {
             dup(fd[0]);
 
             char buff[BUFSIZ];
-            if (read(fd[0], buff, BUFSIZ) == -1)
+
+            if (read(fd[0], buff, BUFSIZ) > 0) {
+                for (int i = 0; (buff[i] != '\0') && (i < BUFSIZ); i++)
+                    buff[i] = toupper((int)buff[i]);
+
+                printf("Message: \"%s\"\n", buff);
+            }
+            else
                 perror("Reading failed\n");
-
-            for (int i = 0; (buff[i] != '\0') && (i < BUFSIZ); i++)
-                buff[i] = toupper((int)buff[i]);
-
-            printf("Message: \"%s\"\n", buff);
         }
         else if (pid < 0) {
             perror("Can not fork second process\n");
