@@ -4,20 +4,47 @@
 #include <unistd.h>
 
 static int cnt;
+static int flag;
+static int flagch = 1;
+static pid_t pid;
 
 void sigcatch(int sig) {
-    if (sig != SIGQUIT) {
-        printf("\07\n");
-        cnt += 1;    
+    if (sig == SIGINT) {
+        cnt += 1;
+
+        printf("(parent pid: %d)\n", getpid());
+
+        putc((int)'\n', stdout);
+        for (int i = 0; i < 1000; i++) {
+            if (i == 0)
+                putc((cnt + 47), stdout);
+            else
+                putc((int)'h', stdout);
+        }
+        putc((int)'\n', stdout);
     }
     else {
-        printf("%d\n", cnt);
-        exit(0);
+        if (pid > 0 && flagch > 0) {
+            flagch -= 1;
+        }
+        else {
+            printf("\n%d\n", cnt);
+            exit(0);
+        }
     }
 }
 
 int main() {
-    cnt = 0;
+    if ((pid = fork()) > 0) {
+        sigset(SIGINT, SIG_IGN);
+        signal(SIGQUIT, sigcatch);
+        
+        while (1) {
+            putc((int)'-', stdout);
+            sleep(1);
+        }
+        printf("child process can not out from while loop\n");
+    }
 
     sigset(SIGINT, sigcatch);
     signal(SIGQUIT, sigcatch);
