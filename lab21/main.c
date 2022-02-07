@@ -3,19 +3,19 @@
 #include <signal.h>
 #include <unistd.h>
 
-#define FLAG_INT 1
-#define FLAG_QUIT 2
-
-static int cnt;
-static int flag;
+static int cnt = 0;
+static char ch = '\007';
 
 void sigcatch(int sig) {
     if (sig == SIGINT) {
         cnt += 1;
-        flag = FLAG_INT;
+        write(STDOUT_FILENO, &ch, 1);
     }
     else {
-        flag = FLAG_QUIT;
+        char tmp[20];
+        int size = snprintf(tmp, 20, "%d\n", cnt);
+        write(STDOUT_FILENO, tmp, size + 1);
+        exit(0);
     }
 }
 
@@ -25,13 +25,5 @@ int main() {
 
     while(1) {
         pause();
-
-        if (flag == FLAG_INT) {
-            printf("\007\n");
-        }
-        else if (flag == FLAG_QUIT) {
-            printf("%d\n", cnt);
-            exit(0);
-        }
     }
 }
