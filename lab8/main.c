@@ -24,7 +24,7 @@ int main() {
         }
         else {
             perror("fcntl failed\n");
-            exit(2); // save
+            exit(2);
         }
 
         lock.l_type = F_UNLCK;
