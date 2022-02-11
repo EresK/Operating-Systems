@@ -10,7 +10,7 @@ int main() {
 
     if (putenv("TZ=America/Los_Angeles"))
     {
-        perror("Can not putenv TZ");
+        perror("Error: putenv TZ failed\n");
         exit(1);
     }
 
