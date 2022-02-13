@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 int main() {
-
     int fd;
 
     if ((fd = open("file", O_RDWR)) != -1) {

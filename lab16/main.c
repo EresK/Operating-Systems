@@ -7,7 +7,6 @@
 #include <fcntl.h>
 
 int main() {
-
     struct termios tty, savedtty;
     int fd;
     char ch;

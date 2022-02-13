@@ -5,7 +5,6 @@
 #include <unistd.h>
 
 int main() {
-
     int fd[2];
     if (pipe(fd) == -1) {
         perror("Pipe creating failed\n");
