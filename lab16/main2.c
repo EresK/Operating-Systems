@@ -27,7 +27,7 @@ void question(int fd) {
 int main() {
     int fd;
 
-    if ((fd = open("/dev/tty", O_RDONLY)) == -1) {
+    if ((fd = open("/dev/tty", O_RDWR)) == -1) {
         perror("Can not open /dev/tty");
         exit(1);
     }

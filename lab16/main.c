@@ -11,7 +11,7 @@ int main() {
     int fd;
     char ch;
 
-    if ((fd = open("/dev/tty", O_RDONLY)) != -1) {
+    if ((fd = open("/dev/tty", O_RDWR)) != -1) {
         if (!isatty(fileno(stdin))) {
             perror("stdin not terminal");
             exit(2);
